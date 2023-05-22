@@ -2,10 +2,10 @@ import {legacy_createStore as createStore, combineReducers, applyMiddleware} fro
 import thunk from 'redux-thunk';
 
 // import reducers
-import moviesReducer from './reducers';
+import cardsReducer from './reducers';
 
 const rootReducer = combineReducers({
-  moviesReducer,
+  cardsReducer,
 });
 
 export const store = createStore(rootReducer, applyMiddleware(thunk));

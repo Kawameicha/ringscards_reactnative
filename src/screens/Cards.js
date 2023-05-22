@@ -1,39 +1,23 @@
 import React, {useEffect} from 'react';
 import {View, Text, FlatList} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
-// sandbox
-import { useState } from "react";
 
 // import actions
-import {getMovies} from '../redux/actions';
+import {getCards} from '../redux/actions';
 
 export default function BooksList() {
 
-  const {cards} = useSelector(state => state.moviesReducer);
+  const {cards} = useSelector(state => state.cardsReducer);
   const dispatch = useDispatch();
-  const fetchMovies = () => dispatch(getMovies());
+  const fetchCards = () => dispatch(getCards());
   
   useEffect(() => {
-    fetchMovies();
+    fetchCards();
   }, []);
-
-  // sandbox
-  // const [movies, setData] = useState([]);
-
-  // const fetchData = async () => {
-  //   const resp = await fetch("https://www.ringsdb.com/api/public/cards/");
-  //   const movies = await resp.json();
-  //   setData(movies);
-  //   setLoading(false);
-  // };
-
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
 
   return (
     <View style={{flex: 1, marginTop: 44, paddingHorizontal: 20}}>
-      <Text style={{fontSize: 22}}>Popular Movies</Text>
+      <Text style={{fontSize: 22}}>Player Cards</Text>
       <View style={{flex: 1, marginTop: 12}}>
         <FlatList
           data={cards} // this array needs a name

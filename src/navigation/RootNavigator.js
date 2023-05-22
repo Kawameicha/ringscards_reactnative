@@ -4,8 +4,8 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 // import screens
-import Movies from '../screens/Movies';
-import Favorites from '../screens/Favorites';
+import Cards from '../screens/Cards';
+import Settings from '../screens/Settings';
 const Tab = createBottomTabNavigator();
 
 const screenOptions = {
@@ -24,20 +24,20 @@ const RootNavigator = () => {
     <NavigationContainer>
       <Tab.Navigator screenOptions={screenOptions}>
         <Tab.Screen
-          name="Movies"
-          component={Movies}
+          name="Cards"
+          component={Cards}
           options={{
             tabBarIcon: ({color, size}) => (
-              <MaterialIcons name="movie-filter" color={color} size={size} />
+              <MaterialIcons name="style" color={color} size={size} />
             ),
           }}
         />
         <Tab.Screen
-          name="Favorites"
-          component={Favorites}
+          name="Settings"
+          component={Settings}
           options={{
             tabBarIcon: ({color, size}) => (
-              <MaterialIcons name="favorite" color={color} size={size} />
+              <MaterialIcons name="settings" color={color} size={size} />
             ),
           }}
         />

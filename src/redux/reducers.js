@@ -1,18 +1,17 @@
 // import actions
-import {GET_MOVIES} from './actions';
+import {GET_CARDS} from './actions';
 
 const initialState = {
-  movies: [],
-  favorites: [],
+  cards: [],
 };
 
-function moviesReducer(state = initialState, action) {
+function cardsReducer(state = initialState, action) {
   switch (action.type) {
-    case GET_MOVIES:
+    case GET_CARDS:
       return {...state, cards: action.payload};
     default:
       return state;
   }
 }
 
-export default moviesReducer;
+export default cardsReducer;

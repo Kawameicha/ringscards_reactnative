@@ -5,13 +5,13 @@ const API_URL = 'https://ringsdb.com/api/public/cards/';
 // const PARAMS = 'page=1';
 const BASE_URL = `${API_URL}` // ?api_key=${API_KEY}&${PARAMS}`;
 
-export const getMovies = () => {
+export const getCards = () => {
   try {
     return async dispatch => {
       const res = await axios.get(`${BASE_URL}`);
       if (res.data) {
         dispatch({
-          type: GET_MOVIES,
+          type: GET_CARDS,
           payload: res.data,
         });
       } else {
@@ -23,4 +23,4 @@ export const getMovies = () => {
   }
 };
 
-export const GET_MOVIES = 'GET_MOVIES';
+export const GET_CARDS = 'GET_CARDS';
