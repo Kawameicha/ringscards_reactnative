@@ -64,7 +64,19 @@ export default function BooksList() {
   // click on item WIP
   const getItem = (item) => {
     // Function for click on an item
-    alert('Id : ' + item.id + ' Name : ' + item.name);
+    alert('Type : ' + item.type_name.toUpperCase() + ' Name : ' + item.name);
+  };
+
+  const ItemView = ({item}) => {
+    return (
+      // Flat List Item
+      <Text
+        onPress={() => getItem(item)}>
+        {item.type_name.toUpperCase()}
+        {' '}
+        {item.name}
+      </Text>
+    );
   };
 
   return (
@@ -79,21 +91,22 @@ export default function BooksList() {
         />
         <FlatList
           data={filteredDataSource}
-          renderItem={({item}) => {
-            return (
-              <View style={{marginVertical: 12}}>
-                <View style={{flexDirection: 'row', flex: 1}}>
-                  <View style={{flex: 1, marginLeft: 12}}>
-                    <View>
-                      <Text style={{fontSize: 22, paddingRight: 16}}>
-                        {item.name}
-                      </Text>
-                    </View>
-                  </View>
-                </View>
-              </View>
-            );
-          }}
+          renderItem={ItemView}
+          // {({item}) => {
+          //   return (
+          //     <View style={{marginVertical: 12}}>
+          //       <View style={{flexDirection: 'row', flex: 1}}>
+          //         <View style={{flex: 1, marginLeft: 12}}>
+          //           <View>
+          //             <Text style={{fontSize: 22, paddingRight: 16}}>
+          //               {item.name}
+          //             </Text>
+          //           </View>
+          //         </View>
+          //       </View>
+          //     </View>
+          //   );
+          // }}
           keyExtractor={item => item.code.toString()}
         />
       </View>
