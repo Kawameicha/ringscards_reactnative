@@ -14,35 +14,23 @@ export default function BooksList() {
   
   useEffect(() => {
     fetchCards()
+    // add masterDataSource and filteredDataSource
     .then(() => {
       setFilteredDataSource(cards);
       setMasterDataSource(cards);
     })
 }, []);
 
-  // sandbox
-  // useEffect(() => {
-  //   fetch('https://ringsdb.com/api/public/cards/')
-  //     .then((response) => response.json())
-  //     .then((responseJson) => {
-  //       setFilteredDataSource(responseJson);
-  //       setMasterDataSource(responseJson);
-  //     })
-  //     .catch((error) => {
-  //       console.error(error);
-  //     });
-  // }, []);
-
   const [search, setSearch] = useState('');
   const [filteredDataSource, setFilteredDataSource] = useState([]);
   const [masterDataSource, setMasterDataSource] = useState([]);
 
   const searchFilterFunction = (text) => {
-    // Check if searched text is not blank
+    // check if searched text is not blank
     if (text) {
-      // Inserted text is not blank
-      // Filter the masterDataSource
-      // Update FilteredDataSource
+      // inserted text is not blank
+      // filter the masterDataSource
+      // update filteredDataSource
       const newData = masterDataSource.filter(
         function (item) {
           const itemData = item.name
@@ -63,29 +51,51 @@ export default function BooksList() {
 
   // click on item WIP
   const getItem = (item) => {
-    // Function for click on an item
+    // function for click on an item
     alert('Type : ' + item.type_name.toUpperCase() + ' Name : ' + item.name);
   };
 
+  const FlatListItemSeparator = () => {
+    return (
+      <View
+        style={{
+          height: 1,
+          width: "100%",
+          backgroundColor: "#F2EBE4",
+        }}
+      />
+    );
+  }
+
   const ItemView = ({item}) => {
     return (
-      // Flat List Item
-      <Text
-        onPress={() => getItem(item)}>
-        {item.type_name.toUpperCase()}
-        {' '}
-        {item.name}
+      // return FlatList item
+      // <Text
+      //   onPress={() => getItem(item)}>
+      //   {item.type_name.toUpperCase()}
+      //   {' '}
+      //   {item.name}
+      // </Text>
+      <Text style={styles[item.sphere_code]}>
+        {`${item.type_name} `}
+        <Text style={styles.defaultText}>
+          {`${item.name} `}
+        </Text>
+          <Text style={styles.subTypeText}>
+            {item.pack_name}
+          </Text>
       </Text>
     );
   };
 
   return (
-    <View style={{flex: 1, marginTop: 44, paddingHorizontal: 20}}>
+    <View style={{flex: 1, /*marginTop: 44,*/ paddingHorizontal: 20}}>
       {/* <Text style={{fontSize: 22}}>Player Cards</Text> */}
-      <View style={{flex: 1, marginTop: 12}}>
-      <TextInput
+      <View>
+        <TextInput
           onChangeText={(text) => searchFilterFunction(text)}
           value={search}
+          style={styles.searchInput}
           underlineColorAndroid="transparent"
           placeholder="Search Here"
         />
@@ -108,8 +118,76 @@ export default function BooksList() {
           //   );
           // }}
           keyExtractor={item => item.code.toString()}
+          ItemSeparatorComponent = {FlatListItemSeparator}
         />
       </View>
     </View>
   );
 }
+
+// styles
+const styles = StyleSheet.create({
+  container: {
+    margin: 15,
+  },
+  searchInput:{
+    paddingTop: 3,
+    paddingBottom: 3,
+    backgroundColor: '#fff',
+    borderBottomWidth: 1,
+    borderColor: '#ffd080',
+  },
+  defaultText: {
+    color: '#000000',
+    fontSize: 14,
+  },
+  typeText: {
+    color: '#000000',
+    fontSize: 14,
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  subTypeText: {
+    color: '#646464',
+    fontSize: 10,
+    fontStyle:'italic',
+    fontWeight: '200',
+    borderBottomColor: '#0A0A0A',
+    borderBottomWidth: 1,
+  },
+  leadership: {
+    color: '#892F69',
+    fontSize: 14,
+    lineHeight: 20,
+  },
+  lore: {
+    color: '#008A46',
+    fontSize: 14,
+    lineHeight: 20,
+  },
+  spirit: {
+    color: '#039ABF',
+    fontSize: 14,
+    lineHeight: 20,
+  },
+  tactics: {
+    color: '#BB2A2E',
+    fontSize: 14,
+    lineHeight: 20,
+  },
+  neutral: {
+    color: '#C8C8C8',
+    fontSize: 14,
+    lineHeight: 20,
+  },
+  baggins: {
+    color: '#E7AF30',
+    fontSize: 14,
+    lineHeight: 20,
+  },
+  fellowship: {
+    color: '#C55839',
+    fontSize: 14,
+    lineHeight: 20,
+  },
+});
