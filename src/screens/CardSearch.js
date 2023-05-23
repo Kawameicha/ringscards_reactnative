@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, FlatList, SearchBar, SafeAreaView, StyleSheet, TextInput} from 'react-native';
+import {View, Text, FlatList, StyleSheet, TextInput} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
-import SearchInput, { createFilter } from 'react-native-search-filter';
 
 // import actions
 import {getCards} from '../redux/actions';
 
-export default function BooksList() {
+export default function BooksList({navigation}) {
 
   const {cards} = useSelector(state => state.cardsReducer);
   const dispatch = useDispatch();
@@ -76,7 +75,8 @@ export default function BooksList() {
       //   {' '}
       //   {item.name}
       // </Text>
-      <Text style={styles[item.sphere_code]}>
+      <Text style={styles[item.sphere_code]}
+      onPress={() => navigation.navigate('Card Details')}>
         {`${item.type_name} `}
         <Text style={styles.defaultText}>
           {`${item.name} `}

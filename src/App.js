@@ -1,16 +1,23 @@
 import React from 'react';
 import {Provider} from 'react-redux';
 
-// import navigator
-import RootNavigator from './navigation/RootNavigator';
-
-// import store
 import {store} from './redux/store';
+import {Tab} from './navigation/RootNavigator';
+
+// import screens
+import {NavigationContainer} from '@react-navigation/native';
+import {HomeStackScreen} from './navigation/RootNavigator';
+import {SettingsStackScreen} from './navigation/RootNavigator';
 
 const App = () => {
   return (
     <Provider store={store}>
-      <RootNavigator />
+      <NavigationContainer>
+      <Tab.Navigator screenOptions={{headerShown: false}}>
+        <Tab.Screen name="CardSearch" component={HomeStackScreen} />
+        <Tab.Screen name="Settings" component={SettingsStackScreen} />
+      </Tab.Navigator>
+    </NavigationContainer>
     </Provider>
   );
 };

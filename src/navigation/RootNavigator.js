@@ -1,49 +1,32 @@
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 // import screens
-import Cards from '../screens/Cards';
+import CardSearch from '../screens/CardSearch';
 import Settings from '../screens/Settings';
-const Tab = createBottomTabNavigator();
+import CardDetails from '../screens/CardDetails';
 
-const screenOptions = {
-  tabBarActiveTintColor: '#efb810',
-  tabBarInactiveTintColor: 'black',
-  tabBarStyle: [
-    {
-      display: "flex"
-    },
-    null
-  ]
+const HomeStack = createNativeStackNavigator();
+
+export function HomeStackScreen() {
+  return (
+    <HomeStack.Navigator>
+      <HomeStack.Screen name="Player Cards" component={CardSearch} />
+      <HomeStack.Screen name="Card Details" component={CardDetails} />
+    </HomeStack.Navigator>
+  );
 }
 
-const RootNavigator = () => {
-  return (
-    <NavigationContainer>
-      <Tab.Navigator screenOptions={screenOptions}>
-        <Tab.Screen
-          name="Cards"
-          component={Cards}
-          options={{
-            tabBarIcon: ({color, size}) => (
-              <MaterialIcons name="style" color={color} size={size} />
-            ),
-          }}
-        />
-        <Tab.Screen
-          name="Settings"
-          component={Settings}
-          options={{
-            tabBarIcon: ({color, size}) => (
-              <MaterialIcons name="settings" color={color} size={size} />
-            ),
-          }}
-        />
-      </Tab.Navigator>
-    </NavigationContainer>
-  );
-};
+const SettingsStack = createNativeStackNavigator();
 
-export default RootNavigator;
+export function SettingsStackScreen() {
+  return (
+    <SettingsStack.Navigator>
+      <SettingsStack.Screen name="Settings Screen" component={Settings} />
+    </SettingsStack.Navigator>
+  );
+}
+
+export const Tab = createBottomTabNavigator();
