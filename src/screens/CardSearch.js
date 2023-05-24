@@ -60,7 +60,7 @@ export default function BooksList({navigation}) {
         style={{
           height: 1,
           width: "100%",
-          backgroundColor: "#F2EBE4",
+          backgroundColor: "#f5f5b8",
         }}
       />
     );
@@ -90,7 +90,6 @@ export default function BooksList({navigation}) {
 
   return (
     <View style={{flex: 1, /*marginTop: 44,*/ paddingHorizontal: 20}}>
-      {/* <Text style={{fontSize: 22}}>Player Cards</Text> */}
       <View>
         <TextInput
           onChangeText={(text) => searchFilterFunction(text)}
@@ -133,9 +132,9 @@ const styles = StyleSheet.create({
   searchInput:{
     paddingTop: 3,
     paddingBottom: 3,
-    backgroundColor: '#fff',
+    backgroundColor: '#ffffff',
     borderBottomWidth: 1,
-    borderColor: '#ffd080',
+    borderColor: '#e0b81f',
   },
   defaultText: {
     color: '#000000',

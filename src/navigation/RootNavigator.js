@@ -11,9 +11,12 @@ const HomeStack = createNativeStackNavigator();
 
 export function HomeStackScreen() {
   return (
-    <HomeStack.Navigator>
-      <HomeStack.Screen name="Player Cards" component={CardSearch} />
-      <HomeStack.Screen name="Card Details" component={CardDetails} />
+    <HomeStack.Navigator 
+    screenOptions={{ headerTintColor: '#e0b81f', headerStyle: { backgroundColor: '#730f1f' } }} >
+      <HomeStack.Screen name="Player Cards" component={CardSearch}
+      options={{ contentStyle:{backgroundColor: '#ffffff'} }} />
+      <HomeStack.Screen name="Card Details" component={CardDetails}
+      options={{ contentStyle:{backgroundColor: '#ffffff'} }} />
     </HomeStack.Navigator>
   );
 }
@@ -22,8 +25,10 @@ const SettingsStack = createNativeStackNavigator();
 
 export function SettingsStackScreen() {
   return (
-    <SettingsStack.Navigator>
-      <SettingsStack.Screen name="Settings Screen" component={Settings} />
+    <SettingsStack.Navigator
+    screenOptions={{ headerTintColor: '#e0b81f', headerStyle: { backgroundColor: '#730f1f' } }} >
+      <SettingsStack.Screen name="Settings Screen" component={Settings}
+      options={{ contentStyle:{backgroundColor: '#ffffff'} }} />
     </SettingsStack.Navigator>
   );
 }

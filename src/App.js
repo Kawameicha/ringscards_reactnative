@@ -12,10 +12,11 @@ import {SettingsStackScreen} from './navigation/RootNavigator';
 
 const screenOptions = {
   headerShown: false,
-  tabBarActiveTintColor: '#efb810',
-  tabBarInactiveTintColor: 'black',
+  tabBarActiveTintColor: '#e0b81f',
+  tabBarInactiveTintColor: '#000000',
   tabBarStyle: [
     {
+      backgroundColor: '#730f1f',
       display: "flex"
     },
     null
