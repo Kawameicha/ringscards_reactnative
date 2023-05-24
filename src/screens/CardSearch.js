@@ -83,7 +83,10 @@ export default function BooksList({ navigation }) {
         sphere_name: item.sphere_name,
         name: item.name,
         traits: item.traits,
-        text: item.text
+        text: item.text,
+        attack: item.attack,
+        defense: item.defense,
+        health: item.health,
       })}>
         {`${item.type_name} `}
         <Text style={styles.defaultText}>

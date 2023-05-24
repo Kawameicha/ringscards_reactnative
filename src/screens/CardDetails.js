@@ -1,33 +1,38 @@
 import React from 'react';
 import {View, Text, StyleSheet, ScrollView} from 'react-native';
 
+// import icons
+import RingsIcons from '../icons/RingsIcons';
+
 const CardDetails = ({ route, navigation }) => {
   // retrive the parameter
-  // const { itemID } = route.params;
-  const { type_name, sphere_name, name, traits, text }  = route.params;
+  const { type_name, sphere_name, name, traits, text, attack, defense, health }  = route.params;
 
   return (
     <ScrollView>
       <View style={styles.container}>
-        {/* <View style={{
-          width: '50%',
+        <View style={{
+          width: '100%',
           marginTop: 2,
-          borderColor: '#FFDF20',
+          borderColor: '#892F69',
           borderWidth: 1,
           borderRadius: 3,
-        }}> */}
-          <Text>Card Type: {type_name}{"\n"}
-                Sphere: {sphere_name}{"\n"}
-                Name: {name}{"\n"}
+        }}>
+          <Text>{type_name}{"\n"}
+                <RingsIcons name='Leadership' size={14} color="#892F69"/> {sphere_name}{"\n"}
+                <RingsIcons name='Unique' size={14} color="#000000"/> {name}{"\n"}
                 Traits: {traits}{"\n"}
                 Text: {text}</Text>
-          {/* <View style={{ marginLeft: 5, marginTop: 5 }}>
+          <View style={{ marginLeft: 5, marginTop: 5 }}>
             <Text>
-              <Text>More text</Text>
+              <Text>
+                <RingsIcons name='Attack' size={14} color="#000000"/> {attack}{"\n"}
+                <RingsIcons name='Defense' size={14} color="#000000"/> {defense}{"\n"}
+                <RingsIcons name='HitPoint' size={14} color="#000000"/> {health}{"\n"}</Text>
             </Text>
-          </View> */}
+          </View>
         </View>
-      {/* </View> */}
+      </View>
     </ScrollView>
   );
 }
