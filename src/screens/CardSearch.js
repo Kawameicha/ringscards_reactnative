@@ -5,7 +5,7 @@ import {useSelector, useDispatch} from 'react-redux';
 // import actions
 import {getCards} from '../redux/actions';
 
-export default function BooksList({navigation}) {
+export default function BooksList({ navigation }) {
 
   const {cards} = useSelector(state => state.cardsReducer);
   const dispatch = useDispatch();
@@ -18,7 +18,7 @@ export default function BooksList({navigation}) {
       setFilteredDataSource(cards);
       setMasterDataSource(cards);
     })
-}, []);
+  }, []);
 
   const [search, setSearch] = useState('');
   const [filteredDataSource, setFilteredDataSource] = useState([]);
@@ -76,7 +76,15 @@ export default function BooksList({navigation}) {
       //   {item.name}
       // </Text>
       <Text style={styles[item.sphere_code]}
-      onPress={() => navigation.navigate('Card Details')}>
+      onPress={() => 
+      // navigate to the details with params
+      navigation.navigate('Card Details', {
+        type_name: item.type_name,
+        sphere_name: item.sphere_name,
+        name: item.name,
+        traits: item.traits,
+        text: item.text
+      })}>
         {`${item.type_name} `}
         <Text style={styles.defaultText}>
           {`${item.name} `}

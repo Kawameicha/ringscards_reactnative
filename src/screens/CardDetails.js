@@ -1,25 +1,33 @@
 import React from 'react';
 import {View, Text, StyleSheet, ScrollView} from 'react-native';
 
-const CardDetails = () => {
+const CardDetails = ({ route, navigation }) => {
+  // retrive the parameter
+  // const { itemID } = route.params;
+  const { type_name, sphere_name, name, traits, text }  = route.params;
+
   return (
     <ScrollView>
       <View style={styles.container}>
-        <View style={{
+        {/* <View style={{
           width: '50%',
           marginTop: 2,
           borderColor: '#FFDF20',
           borderWidth: 1,
           borderRadius: 3,
-        }}>
-          <Text>Card name</Text>
-          <View style={{ marginLeft: 5, marginTop: 5 }}>
+        }}> */}
+          <Text>Card Type: {type_name}{"\n"}
+                Sphere: {sphere_name}{"\n"}
+                Name: {name}{"\n"}
+                Traits: {traits}{"\n"}
+                Text: {text}</Text>
+          {/* <View style={{ marginLeft: 5, marginTop: 5 }}>
             <Text>
               <Text>More text</Text>
             </Text>
-          </View>
+          </View> */}
         </View>
-      </View>
+      {/* </View> */}
     </ScrollView>
   );
 }
