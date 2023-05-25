@@ -80,13 +80,18 @@ export default function BooksList({ navigation }) {
       // navigate to the details with params
       navigation.navigate('Card Details', {
         type_name: item.type_name,
+        sphere_code: item.sphere_code,
         sphere_name: item.sphere_name,
         name: item.name,
         traits: item.traits,
         text: item.text,
+        threat: item.threat,
+        willpower: item.willpower,
         attack: item.attack,
         defense: item.defense,
         health: item.health,
+        unique: item.is_unique,
+        flavor: item.flavor,
       })}>
         {`${item.type_name} `}
         <Text style={styles.defaultText}>
