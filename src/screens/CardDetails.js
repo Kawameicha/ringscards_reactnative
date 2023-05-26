@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet, ScrollView} from 'react-native';
-import HTML from 'react-native-render-html';
+import { useWindowDimensions } from 'react-native';
+import RenderHtml from 'react-native-render-html';
 
 // import icons
 import RingsIcons from '../icons/RingsIcons';
@@ -8,6 +9,16 @@ import colors from '../styles/colors';
 
 const CardDetails = ({ route, navigation }) => {
   const { type_name, sphere_code, sphere_name, name, traits, text, threat, willpower, attack, defense, health, unique, flavor }  = route.params;
+  const { width } = useWindowDimensions();
+
+  const tagsStyles = {
+    body: {
+      whiteSpace: 'pre',
+    },
+    cite: {
+      color: 'darkgray'
+    }
+  };
 
   return (
     <ScrollView>
@@ -16,9 +27,11 @@ const CardDetails = ({ route, navigation }) => {
           <Text style={{fontVariant: 'small-caps', textAlign: 'center'}}>
             { unique == true ? <RingsIcons name='Unique' size={14}/> : null } { `${name}` }
           </Text>
-          <Text style={{fontStyle: 'italic', fontWeight: '700', fontSize: 11, textAlign: 'center'}}>
-            { ` ${traits} ` }
-          </Text>
+          { traits ?
+            <Text style={{fontStyle: 'italic', fontWeight: '700', fontSize: 11, textAlign: 'center'}}>
+              { ` ${traits} ` }
+            </Text>
+          : <Text></Text> }
         </View>
         <View style={[styles.middle, { borderColor: colors.sphere[sphere_code] }]}>
           { threat ?
@@ -35,10 +48,17 @@ const CardDetails = ({ route, navigation }) => {
             </Text>
           : null }
           <Text></Text>
-          <HTML source={{ html: text }} />
+          <RenderHtml
+            contentWidth={width}
+            source={{ html: text }}
+            tagsStyles={tagsStyles}
+          />
           <Text></Text>
           { flavor ?
-            <HTML source={{ html: flavor }} />
+            <RenderHtml
+              contentWidth={width}
+              source={{ html: flavor }}
+            />
           : null }
         </View>
         <View style={[styles.bottom, { borderColor: colors.sphere[sphere_code] }]}>
