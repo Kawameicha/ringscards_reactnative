@@ -2,6 +2,8 @@ import React from 'react';
 import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import { useWindowDimensions } from 'react-native';
 import RenderHtml from 'react-native-render-html';
+import { MarkdownView } from 'react-native-markdown-view'
+import SimpleMarkdown from 'simple-markdown';
 
 // import icons
 import RingsIcons from '../icons/RingsIcons';
@@ -11,13 +13,77 @@ const CardDetails = ({ route, navigation }) => {
   const { type_name, sphere_code, sphere_name, name, traits, text, threat, willpower, attack, defense, health, unique, flavor }  = route.params;
   const { width } = useWindowDimensions();
 
-  const tagsStyles = {
+  const flavorStyles = {
     body: {
-      whiteSpace: 'pre',
-    },
-    cite: {
-      color: 'darkgray'
+      color: 'grey'
     }
+  };
+
+  const CAP_ICON_NAMES = {
+    'unique': 'Unique',
+    'threat': 'Threat',
+    'willpower': 'Willpower',
+    'attack': 'Attack',
+    'defense': 'Defense',
+    'hitPoint': 'HitPoint',
+    'leadership': 'Leadership',
+    'tactics': 'Tactics',
+    'lore': 'Lore',
+    'spirit': 'Spirit',
+    'baggins': 'Baggins',
+    'fellowship': 'Fellowship',
+  };
+
+  function IconNode(node, output, state) {
+    return (
+      <RingsIcons
+        name={CAP_ICON_NAMES[node.name]}
+        size={14}
+      />
+    );
+  }
+
+  function BoldHtmlTagNode(node, output, state) {
+    return (
+      <Text style={styles.boldText}>
+        { node.text }
+      </Text>
+    );
+  }
+
+  function ItalicHtmlTagNode(node, output, state) {
+    return (
+      <Text style={styles.italicText}>
+        { node.text }
+      </Text>
+    );
+  }
+
+  const IconRule = {
+    match: SimpleMarkdown.inlineRegex(new RegExp('^\\[([^\\]]+)\\]')),
+    order: 1,
+    parse: (capture) => {
+      return { name: capture[1] };
+    },
+    render: IconNode,
+  };
+
+  const BoldHtmlTagRule = {
+    match: SimpleMarkdown.inlineRegex(new RegExp('^<b>([\\s\\S]+?)<\\/b>')),
+    order: 1,
+    parse: (capture) => {
+      return { text: capture[1] };
+    },
+    render: BoldHtmlTagNode,
+  };
+
+  const ItalicHtmlTagRule = {
+    match: SimpleMarkdown.inlineRegex(new RegExp('^<i>([\\s\\S]+?)<\\/i>')),
+    order: 1,
+    parse: (capture) => {
+      return { text: capture[1] };
+    },
+    render: ItalicHtmlTagNode,
   };
 
   return (
@@ -34,12 +100,16 @@ const CardDetails = ({ route, navigation }) => {
           : <Text></Text> }
         </View>
         <View style={[styles.middle, { borderColor: colors.sphere[sphere_code] }]}>
-          { threat ?
+          { type_name == 'Hero' ?
             <Text style={{fontVariant: 'small-caps', textAlign: 'center'}}>
-              { ` ${threat} ` } <RingsIcons name='Threat' size={14}/>
+              { ` ${threat} ` }<RingsIcons name='Threat' size={14}/>
+              { ` ${willpower} ` }<RingsIcons name='Willpower' size={14}/>
+              { ` ${attack} ` }<RingsIcons name='Attack' size={14}/>
+              { ` ${defense} ` }<RingsIcons name='Defense' size={14}/>
+              { ` ${health} ` }<RingsIcons name='HitPoint' size={14}/>
             </Text>
           : null }
-          { health ?
+          { type_name != 'Hero' && health ?
             <Text style={{fontVariant: 'small-caps', textAlign: 'center'}}>
               { ` ${willpower} ` }<RingsIcons name='Willpower' size={14}/>
               { ` ${attack} ` }<RingsIcons name='Attack' size={14}/>
@@ -48,16 +118,15 @@ const CardDetails = ({ route, navigation }) => {
             </Text>
           : null }
           <Text></Text>
-          <RenderHtml
-            contentWidth={width}
-            source={{ html: text }}
-            tagsStyles={tagsStyles}
-          />
+          <MarkdownView rules={{Icon: IconRule, bTag: BoldHtmlTagRule, iTag: ItalicHtmlTagRule}}>
+            { `${text}` }
+          </MarkdownView>
           <Text></Text>
           { flavor ?
             <RenderHtml
               contentWidth={width}
               source={{ html: flavor }}
+              tagsStyles={flavorStyles}
             />
           : null }
         </View>
@@ -97,5 +166,12 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
     borderTopWidth: 0,
+  },
+  boldText: {
+    fontWeight: '700',
+  },
+  italicText: {
+    fontStyle: 'italic',
+    fontWeight: '700',
   },
 });
