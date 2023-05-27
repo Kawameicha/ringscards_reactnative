@@ -10,7 +10,7 @@ import RingsIcons from '../icons/RingsIcons';
 import colors from '../styles/colors';
 
 const CardDetails = ({ route, navigation }) => {
-  const { type_name, sphere_code, sphere_name, name, traits, text, threat, willpower, attack, defense, health, unique, flavor }  = route.params;
+  const { pack_name, type_name, sphere_code, position, name, traits, text, flavor, is_unique, threat, cost,  willpower, attack, defense, health, illustrator, has_errata }  = route.params;
   const { width } = useWindowDimensions();
 
   const flavorStyles = {
@@ -43,6 +43,14 @@ const CardDetails = ({ route, navigation }) => {
     );
   }
 
+  function BoldItalicHtmlTagNode(node, output, state) {
+    return (
+      <Text style={styles.boldItalicText}>
+        { node.text }
+      </Text>
+    );
+  }
+
   function BoldHtmlTagNode(node, output, state) {
     return (
       <Text style={styles.boldText}>
@@ -68,8 +76,17 @@ const CardDetails = ({ route, navigation }) => {
     render: IconNode,
   };
 
+  const BoldItalicsHtmlTagRule = {
+    match: SimpleMarkdown.inlineRegex(new RegExp('^<b><i>([\\s\\S]+?)<\\/i><\\/b>')),
+    order: 1,
+    parse: (capture) => {
+      return { text: capture[1] };
+    },
+    render: BoldItalicHtmlTagNode,
+  };
+
   const BoldHtmlTagRule = {
-    match: SimpleMarkdown.inlineRegex(new RegExp('^<b>([\\s\\S]+?)<\\/b>')),
+    match: SimpleMarkdown.inlineRegex(new RegExp('^<b>(?!<i>)([\\s\\S]+?)(?!<\\/i)<\\/b>')),
     order: 1,
     parse: (capture) => {
       return { text: capture[1] };
@@ -91,34 +108,34 @@ const CardDetails = ({ route, navigation }) => {
       <View style={styles.container}>
         <View style={[styles.top, { backgroundColor: colors.sphere[sphere_code] }]}>
           <Text style={{fontVariant: 'small-caps', textAlign: 'center'}}>
-            { unique == true ? <RingsIcons name='Unique' size={14}/> : null } { `${name}` }
+            { is_unique == true ? <RingsIcons name='Unique' size={14}/> : null } { `${name}` }
           </Text>
           { traits ?
             <Text style={{fontStyle: 'italic', fontWeight: '700', fontSize: 11, textAlign: 'center'}}>
-              { ` ${traits} ` }
+              { `${traits}` }
             </Text>
           : <Text></Text> }
         </View>
         <View style={[styles.middle, { borderColor: colors.sphere[sphere_code] }]}>
           { type_name == 'Hero' ?
             <Text style={{fontVariant: 'small-caps', textAlign: 'center'}}>
-              { ` ${threat} ` }<RingsIcons name='Threat' size={14}/>
-              { ` ${willpower} ` }<RingsIcons name='Willpower' size={14}/>
-              { ` ${attack} ` }<RingsIcons name='Attack' size={14}/>
-              { ` ${defense} ` }<RingsIcons name='Defense' size={14}/>
-              { ` ${health} ` }<RingsIcons name='HitPoint' size={14}/>
+              { `${threat}` } <RingsIcons name='Threat' size={14}/>
+              { ` ${willpower}` } <RingsIcons name='Willpower' size={14}/>
+              { ` ${attack}` } <RingsIcons name='Attack' size={14}/>
+              { ` ${defense}` } <RingsIcons name='Defense' size={14}/>
+              { ` ${health}` } <RingsIcons name='HitPoint' size={14}/>
             </Text>
           : null }
           { type_name != 'Hero' && health ?
             <Text style={{fontVariant: 'small-caps', textAlign: 'center'}}>
-              { ` ${willpower} ` }<RingsIcons name='Willpower' size={14}/>
-              { ` ${attack} ` }<RingsIcons name='Attack' size={14}/>
-              { ` ${defense} ` }<RingsIcons name='Defense' size={14}/>
-              { ` ${health} ` }<RingsIcons name='HitPoint' size={14}/>
+              { `${willpower}` } <RingsIcons name='Willpower' size={14}/>
+              { ` ${attack}` } <RingsIcons name='Attack' size={14}/>
+              { ` ${defense}` } <RingsIcons name='Defense' size={14}/>
+              { ` ${health}` } <RingsIcons name='HitPoint' size={14}/>
             </Text>
           : null }
           <Text></Text>
-          <MarkdownView rules={{Icon: IconRule, bTag: BoldHtmlTagRule, iTag: ItalicHtmlTagRule}}>
+          <MarkdownView rules={{Icon: IconRule, biTag: BoldItalicsHtmlTagRule, bTag: BoldHtmlTagRule, iTag: ItalicHtmlTagRule}}>
             { `${text}` }
           </MarkdownView>
           <Text></Text>
@@ -133,7 +150,10 @@ const CardDetails = ({ route, navigation }) => {
         <View style={[styles.bottom, { borderColor: colors.sphere[sphere_code] }]}>
           <Text></Text>
           <Text style={{fontVariant: 'small-caps', fontWeight: '500', textAlign: 'center'}}>
-            { ` ${type_name} ` }
+            { `${type_name}` }
+          </Text>
+          <Text style={{textAlign: 'center'}}>
+            { `${pack_name}` } { `${position}` }
           </Text>
         </View>
       </View>
@@ -167,11 +187,14 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 10,
     borderTopWidth: 0,
   },
+  boldItalicText: {
+    fontStyle: 'italic',
+    fontWeight: '700',
+  },
   boldText: {
     fontWeight: '700',
   },
   italicText: {
     fontStyle: 'italic',
-    fontWeight: '700',
   },
 });

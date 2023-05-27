@@ -48,12 +48,6 @@ export default function BooksList({ navigation }) {
     }
   };
 
-  // click on item WIP
-  const getItem = (item) => {
-    // function for click on an item
-    alert('Type : ' + item.type_name.toUpperCase() + ' Name : ' + item.name);
-  };
-
   const FlatListItemSeparator = () => {
     return (
       <View
@@ -69,29 +63,27 @@ export default function BooksList({ navigation }) {
   const ItemView = ({item}) => {
     return (
       // return FlatList item
-      // <Text
-      //   onPress={() => getItem(item)}>
-      //   {item.type_name.toUpperCase()}
-      //   {' '}
-      //   {item.name}
-      // </Text>
       <Text style={styles[item.sphere_code]}
       onPress={() => 
       // navigate to the details with params
       navigation.navigate('Card Details', {
+        pack_name: item.pack_name,
         type_name: item.type_name,
         sphere_code: item.sphere_code,
-        sphere_name: item.sphere_name,
+        position: item.position,
         name: item.name,
         traits: item.traits,
         text: item.text,
+        flavor: item.flavor,
+        is_unique: item.is_unique,
         threat: item.threat,
+        cost: item.cost,
         willpower: item.willpower,
         attack: item.attack,
         defense: item.defense,
         health: item.health,
-        unique: item.is_unique,
-        flavor: item.flavor,
+        illustrator: item.illustrator,
+        has_errata: item.has_errata
       })}>
         {`${item.type_name} `}
         <Text style={styles.defaultText}>
@@ -105,7 +97,7 @@ export default function BooksList({ navigation }) {
   };
 
   return (
-    <View style={{flex: 1, /*marginTop: 44,*/ paddingHorizontal: 20}}>
+    <View style={{flex: 1, paddingHorizontal: 20}}>
       <View>
         <TextInput
           onChangeText={(text) => searchFilterFunction(text)}
@@ -117,21 +109,6 @@ export default function BooksList({ navigation }) {
         <FlatList
           data={filteredDataSource}
           renderItem={ItemView}
-          // {({item}) => {
-          //   return (
-          //     <View style={{marginVertical: 12}}>
-          //       <View style={{flexDirection: 'row', flex: 1}}>
-          //         <View style={{flex: 1, marginLeft: 12}}>
-          //           <View>
-          //             <Text style={{fontSize: 22, paddingRight: 16}}>
-          //               {item.name}
-          //             </Text>
-          //           </View>
-          //         </View>
-          //       </View>
-          //     </View>
-          //   );
-          // }}
           keyExtractor={item => item.code.toString()}
           ItemSeparatorComponent = {FlatListItemSeparator}
         />
