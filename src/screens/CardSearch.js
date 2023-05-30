@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, FlatList, StyleSheet, TextInput} from 'react-native';
+import {View, Text, FlatList, StyleSheet, TextInput, ScrollView} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 
 // import actions
@@ -48,6 +48,25 @@ export default function BooksList({ navigation }) {
     }
   };
 
+  // sort
+  const sortedDataSource = filteredDataSource.sort(function(a, b) {
+    const nameA = a.name.toUpperCase();
+    const nameB = b.name.toUpperCase();
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
+    return 0;
+  });
+
+  // filter
+  const filteredHero = sortedDataSource.filter(x => x.type_code.includes('hero'));
+  const filteredAlly = sortedDataSource.filter(x => x.type_code.includes('ally'));
+  const filteredAttachment = sortedDataSource.filter(x => x.type_code.includes('attachment'));
+  const filteredEvent = sortedDataSource.filter(x => x.type_code.includes('event'));
+
   const FlatListItemSeparator = () => {
     return (
       <View
@@ -85,8 +104,8 @@ export default function BooksList({ navigation }) {
         illustrator: item.illustrator,
         has_errata: item.has_errata
       })}>
-        {`${item.type_name} `}
-        <Text style={styles.defaultText}>
+        {/* {`${item.type_name} `} */}
+        <Text style={styles[item.sphere_code]}>
           {`${item.name} `}
         </Text>
           <Text style={styles.subTypeText}>
@@ -97,7 +116,7 @@ export default function BooksList({ navigation }) {
   };
 
   return (
-    <View style={{flex: 1, paddingHorizontal: 20}}>
+    <View style={styles.container}>
       <View>
         <TextInput
           onChangeText={(text) => searchFilterFunction(text)}
@@ -106,13 +125,25 @@ export default function BooksList({ navigation }) {
           underlineColorAndroid="transparent"
           placeholder="Search Here"
         />
+      </View>
+      <Text style={styles.typeText}>Ally</Text>
+      <View style={[styles.ally]}>
         <FlatList
-          data={filteredDataSource}
+          data={filteredAlly}
           renderItem={ItemView}
-          keyExtractor={item => item.code.toString()}
+          keyExtractor={item => item.code.toString()} // can be used to sort but need to remove starter decks
           ItemSeparatorComponent = {FlatListItemSeparator}
         />
       </View>
+      {/* <Text style={styles.typeText}>Attachment</Text>
+      <View style={[styles.ally]}>
+        <FlatList
+          data={filteredAttachment}
+          renderItem={ItemView}
+          keyExtractor={item => item.code.toString()} // can be used to sort but need to remove starter decks
+          ItemSeparatorComponent = {FlatListItemSeparator}
+        />
+      </View> */}
     </View>
   );
 }
@@ -120,7 +151,36 @@ export default function BooksList({ navigation }) {
 // styles
 const styles = StyleSheet.create({
   container: {
-    margin: 15,
+    flex: 1,
+    padding: 5,
+    margin: 5,
+  },
+  search: {
+    flex: 1,
+    padding: 5,
+    margin: 5,
+  },
+  hero: {
+    flex: 1,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+  },
+  ally: {
+    flex: 1,
+    borderWidth: 0,
+    borderBottomWidth: 0,
+  },
+  attachment: {
+    flex: 1,
+    borderWidth: 1,
+    borderBottomWidth: 0,
+  },
+  event: {
+    flex: 1,
+    borderWidth: 1,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+    borderTopWidth: 0,
   },
   searchInput:{
     paddingTop: 3,
