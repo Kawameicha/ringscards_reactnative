@@ -1,6 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, FlatList, StyleSheet, TextInput, ScrollView} from 'react-native';
+import {View, Text, FlatList, StyleSheet, TextInput} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
+
+// sandbox
+const _ = require("lodash"); 
 
 // import actions
 import {getCards} from '../redux/actions';
@@ -48,24 +51,8 @@ export default function BooksList({ navigation }) {
     }
   };
 
-  // sort
-  const sortedDataSource = filteredDataSource.sort(function(a, b) {
-    const nameA = a.name.toUpperCase();
-    const nameB = b.name.toUpperCase();
-    if (nameA < nameB) {
-      return -1;
-    }
-    if (nameA > nameB) {
-      return 1;
-    }
-    return 0;
-  });
-
-  // filter
-  const filteredHero = sortedDataSource.filter(x => x.type_code.includes('hero'));
-  const filteredAlly = sortedDataSource.filter(x => x.type_code.includes('ally'));
-  const filteredAttachment = sortedDataSource.filter(x => x.type_code.includes('attachment'));
-  const filteredEvent = sortedDataSource.filter(x => x.type_code.includes('event'));
+  const excludingHero = filteredDataSource.filter(x => !x.type_code.includes('hero'));
+  const sortedDataSource = _.sortBy(excludingHero, ['type_code', 'sphere_code', 'name']);
 
   const FlatListItemSeparator = () => {
     return (
@@ -117,7 +104,7 @@ export default function BooksList({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <View>
+      {/* <View> */}
         <TextInput
           onChangeText={(text) => searchFilterFunction(text)}
           value={search}
@@ -125,16 +112,16 @@ export default function BooksList({ navigation }) {
           underlineColorAndroid="transparent"
           placeholder="Search Here"
         />
-      </View>
-      <Text style={styles.typeText}>Ally</Text>
-      <View style={[styles.ally]}>
+      {/* </View> */}
+      {/* <Text style={styles.typeText}>Ally</Text> */}
+      {/* <View style={[styles.ally]}> */}
         <FlatList
-          data={filteredAlly}
+          data={sortedDataSource}
           renderItem={ItemView}
-          keyExtractor={item => item.code.toString()} // can be used to sort but need to remove starter decks
+          // keyExtractor={item => item.name.toString()} // can be used to sort but need to remove starter decks
           ItemSeparatorComponent = {FlatListItemSeparator}
         />
-      </View>
+      {/* </View> */}
       {/* <Text style={styles.typeText}>Attachment</Text>
       <View style={[styles.ally]}>
         <FlatList

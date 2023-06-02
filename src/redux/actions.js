@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = 'https://ringsdb.com/api/public/cards/';
+const API_URL = 'https://ringsdb.com/api/public/cards/core.json'; // for easiness core only
 // const API_KEY = 'fda265e41e2cbe467bbc350eae5a5d45';
 // const PARAMS = 'page=1';
 const BASE_URL = `${API_URL}` // ?api_key=${API_KEY}&${PARAMS}`;
